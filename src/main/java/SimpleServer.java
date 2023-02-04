@@ -5,18 +5,18 @@ import java.net.Socket;
 
 public class SimpleServer {
     public static void main(String[] args) throws IOException {
+
         // ポート番号の指定
         var server = new ServerSocket(1600);
         System.out.println("Waiting.....");
-        Socket soc = server.accept();
-        System.out.println("connect from  " + soc.getInetAddress());
 
-        // データの受信
-        InputStream input = soc.getInputStream();
-        System.out.println(input.read());
-        input.close();
+        try (
+                Socket soc = server.accept();
+                InputStream input = soc.getInputStream();
+        ) {
+            System.out.println("connect from " + soc.getInetAddress());
+            System.out.println(input.read());
+        }
 
-        // ソケットを閉じる
-        soc.close();
     }
 }
